@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.RegistrationView"
+             Tag="Регистрация">
+
+    <Border Classes="panel" Width="460" Padding="36,30"
+            HorizontalAlignment="Center" VerticalAlignment="Center"
+            BoxShadow="0 10 30 #1A0F172A">
+        <StackPanel Spacing="14">
+            <StackPanel Spacing="4">
+                <TextBlock Classes="h1" Text="Регистрация покупателя"/>
+                <TextBlock Classes="muted" Text="После регистрации вы сможете оформлять заказы"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Логин *" Classes="label"/>
+                <TextBox x:Name="LoginBox" PlaceholderText="Например, ivanov" MaxLength="50"/>
+            </StackPanel>
+            <Grid ColumnDefinitions="*,12,*">
+                <StackPanel>
+                    <TextBlock Text="Пароль *" Classes="label"/>
+                    <TextBox x:Name="PasswordBox" PasswordChar="•" PlaceholderText="Не менее 4 символов"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Повторите пароль *" Classes="label"/>
+                    <TextBox x:Name="Password2Box" PasswordChar="•"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel>
+                <TextBlock Text="Фамилия *" Classes="label"/>
+                <TextBox x:Name="LastNameBox" MaxLength="60"/>
+            </StackPanel>
+            <Grid ColumnDefinitions="*,12,*">
+                <StackPanel>
+                    <TextBlock Text="Имя *" Classes="label"/>
+                    <TextBox x:Name="FirstNameBox" MaxLength="60"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Отчество" Classes="label"/>
+                    <TextBox x:Name="MiddleNameBox" MaxLength="60"/>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="StatusText" Foreground="{StaticResource DangerBrush}" FontSize="13"
+                       IsVisible="False"/>
+
+            <Grid ColumnDefinitions="*,12,*">
+                <Button Content="Назад" Classes="secondary" HorizontalAlignment="Stretch" Click="BackClick"/>
+                <Button Grid.Column="2" x:Name="SaveButton" Content="Зарегистрироваться" Classes="primary"
+                        HorizontalAlignment="Stretch" Click="RegisterClick"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

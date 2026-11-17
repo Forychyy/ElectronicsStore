@@ -1,0 +1,123 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.ProductsView"
+             Tag="Ведение каталога">
+
+    <Grid ColumnDefinitions="340,*" RowDefinitions="Auto,*">
+        <StackPanel Grid.ColumnSpan="2" Spacing="2" Margin="0,0,0,14">
+            <TextBlock Classes="h1" Text="Ведение каталога товаров"/>
+            <TextBlock Classes="muted" Text="Добавление и изменение товаров, учёт партий и остатков на складе"/>
+        </StackPanel>
+
+        <!-- СПИСОК ТОВАРОВ -->
+        <Border Grid.Row="1" Classes="panel" Padding="12" Margin="0,0,16,0">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                    <TextBox x:Name="SearchBox" PlaceholderText="Поиск..." TextChanged="SearchChanged"/>
+                    <Button Grid.Column="1" Content="+ Новый" Classes="primary" Margin="8,0,0,0" Click="NewClick"/>
+                </Grid>
+                <ListBox x:Name="ProductsList" Background="Transparent" SelectionChanged="ProductSelected">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,2">
+                                <TextBlock Text="{Binding ProductName}" FontWeight="Medium"
+                                           TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                                <TextBlock Classes="muted" FontSize="12">
+                                    <Run Text="{Binding ProductCode}"/>
+                                    <Run Text="  ·  остаток "/>
+                                    <Run Text="{Binding TotalStock}"/>
+                                    <Run Text=" шт."/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- КАРТОЧКА ТОВАРА -->
+        <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="14">
+                <Border Classes="panel">
+                    <StackPanel Spacing="12">
+                        <TextBlock x:Name="FormTitle" Text="Новый товар" Classes="h2"/>
+
+                        <Grid ColumnDefinitions="160,12,*">
+                            <StackPanel>
+                                <TextBlock Text="Артикул *" Classes="label"/>
+                                <TextBox x:Name="CodeBox" MaxLength="20"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Наименование *" Classes="label"/>
+                                <TextBox x:Name="NameBox" MaxLength="150"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,12,*,12,160">
+                            <StackPanel>
+                                <TextBlock Text="Категория" Classes="label"/>
+                                <ComboBox x:Name="CategoryBox" HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Отдел" Classes="label"/>
+                                <ComboBox x:Name="DepartmentBox" HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Text="Базовая цена, ₽ *" Classes="label"/>
+                                <TextBox x:Name="PriceBox"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel>
+                            <TextBlock Text="Краткие характеристики" Classes="label"/>
+                            <TextBox x:Name="ContentBox" MaxLength="300"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Описание" Classes="label"/>
+                            <TextBox x:Name="DescriptionBox" AcceptsReturn="True" TextWrapping="Wrap" Height="70"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Файл изображения (папка Assets/Images)" Classes="label"/>
+                            <TextBox x:Name="ImageBox" PlaceholderText="Например, SM-001.png" MaxLength="150"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+                            <Button x:Name="DeleteButton" Content="Удалить товар" Classes="danger"
+                                    Click="DeleteClick" IsVisible="False"/>
+                            <Button Content="Сохранить" Classes="primary" Click="SaveClick"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- ПАРТИИ И ОСТАТКИ -->
+                <Border x:Name="VariantsPanel" Classes="panel" IsVisible="False">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Партии и остатки на складе" Classes="h2"/>
+
+                        <ItemsControl x:Name="VariantsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,110,Auto" Margin="0,0,0,8">
+                                        <TextBlock Text="{Binding VariantName}" VerticalAlignment="Center"/>
+                                        <TextBox Grid.Column="1" Text="{Binding AvailableStock}" Tag="{Binding}"
+                                                 Classes="stockBox" Margin="8,0"/>
+                                        <Button Grid.Column="2" Content="Сохранить остаток" Classes="secondary"
+                                                Tag="{Binding}" Click="SaveStockClick"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Border Height="1" Background="{StaticResource BorderBrush}"/>
+                        <Grid ColumnDefinitions="*,110,Auto">
+                            <TextBox x:Name="NewVariantName" PlaceholderText="Новая партия, например «Партия 03 · белый»"
+                                     MaxLength="30"/>
+                            <TextBox Grid.Column="1" x:Name="NewVariantStock" PlaceholderText="Кол-во" Margin="8,0"/>
+                            <Button Grid.Column="2" Content="Добавить партию" Classes="primary" Click="AddVariantClick"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,118 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.CatalogView"
+             Tag="Каталог товаров">
+
+    <DockPanel>
+
+        <!-- ВЕРХНЯЯ ПАНЕЛЬ: заголовок, поиск, категория, сортировка -->
+        <StackPanel DockPanel.Dock="Top" Spacing="12" Margin="0,0,0,14">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="2">
+                    <TextBlock Classes="h1" Text="Каталог техники"/>
+                    <TextBlock x:Name="SubtitleText" Classes="muted"
+                               Text="Нажмите на карточку товара, чтобы оформить заказ"/>
+                </StackPanel>
+                <TextBlock Grid.Column="1" x:Name="CountText" Classes="muted" VerticalAlignment="Bottom"/>
+            </Grid>
+
+            <Border Classes="panel" Padding="12">
+                <Grid ColumnDefinitions="*,220,220,Auto">
+                    <TextBox Grid.Column="0" x:Name="SearchBox"
+                             PlaceholderText="Поиск по наименованию или артикулу..."
+                             TextChanged="SearchChanged"/>
+                    <ComboBox Grid.Column="1" x:Name="CategoryBox" Margin="10,0,0,0"
+                              HorizontalAlignment="Stretch" SelectionChanged="FilterChanged"/>
+                    <ComboBox Grid.Column="2" x:Name="SortBox" Margin="10,0,0,0"
+                              HorizontalAlignment="Stretch" SelectionChanged="FilterChanged">
+                        <ComboBoxItem Content="По наименованию"/>
+                        <ComboBoxItem Content="Сначала дешевле"/>
+                        <ComboBoxItem Content="Сначала дороже"/>
+                    </ComboBox>
+                    <Button Grid.Column="3" Content="Обновить" Classes="secondary"
+                            Click="ReloadClick" Margin="10,0,0,0"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <Grid>
+            <!-- СПИСОК КАРТОЧЕК (по две в ряд) -->
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="CardsList" Margin="-6,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- КАРТОЧКА ТОВАРА: фон красный при остатке 3 и меньше -->
+                            <Border Classes="productCard" Background="{Binding Background}"
+                                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                    CornerRadius="10" Margin="6" Width="580" Height="176" Padding="12"
+                                    Cursor="Hand" PointerPressed="CardPressed" Tag="{Binding}">
+                                <Grid ColumnDefinitions="200,*">
+
+                                    <!-- Фото -->
+                                    <Border CornerRadius="8" ClipToBounds="True" Background="White">
+                                        <Image Source="{Binding Image}" Stretch="Uniform"/>
+                                    </Border>
+
+                                    <Grid Grid.Column="1" Margin="16,0,0,0" RowDefinitions="Auto,Auto,*,Auto">
+                                        <!-- Категория и артикул -->
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <Border Classes="tag" Background="{StaticResource AccentSoftBrush}">
+                                                <TextBlock Text="{Binding Category}" Foreground="{StaticResource AccentBrush}"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding Code}" Classes="muted" FontSize="12"
+                                                       VerticalAlignment="Center"/>
+                                        </StackPanel>
+
+                                        <TextBlock Grid.Row="1" Text="{Binding Name}" FontWeight="Bold" FontSize="16"
+                                                   Margin="0,6,0,2" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding Content}" Classes="muted" FontSize="13"
+                                                   MaxLines="2" TextTrimming="CharacterEllipsis"/>
+
+                                        <!-- Остаток и цена -->
+                                        <Grid Grid.Row="3" ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="{Binding StockText}" Foreground="{Binding StockBrush}"
+                                                       FontWeight="SemiBold" FontSize="13" VerticalAlignment="Bottom"/>
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                                <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right"
+                                                            IsVisible="{Binding HasDiscount}">
+                                                    <TextBlock Text="{Binding OldPriceText}" Classes="muted" FontSize="12"
+                                                               TextDecorations="Strikethrough" VerticalAlignment="Center"/>
+                                                    <Border Classes="tag" Background="{StaticResource DangerBrush}">
+                                                        <TextBlock Text="−25 %" Foreground="White"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding PriceText}" FontWeight="Bold" FontSize="20"
+                                                           HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <!-- Пустой результат поиска -->
+            <StackPanel x:Name="EmptyPanel" IsVisible="False" Spacing="6"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Товары не найдены" Classes="h2" HorizontalAlignment="Center"/>
+                <TextBlock Text="Измените запрос или выберите «Все категории»" Classes="muted"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+    <UserControl.Styles>
+        <!-- Рамка карточки подсвечивается при наведении -->
+        <Style Selector="Border.productCard:pointerover">
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

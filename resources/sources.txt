@@ -1,0 +1,31 @@
+Источники графических ресурсов (src/ElectronicsStore/Assets)
+
+logo.png, app.ico  — логотип магазина «Вольт», нарисован автором проекта.
+picture.png        — заглушка «Нет изображения», нарисована автором проекта.
+
+Images/*.png — фотографии товаров с Wikimedia Commons (свободные лицензии).
+Фон приведён к белому, изображения вписаны в формат 900×600. Имя файла = артикул товара (products.image_path).
+У товара NB-003 изображение намеренно не задано — показывается заглушка.
+
+HP-001.png — «AirPods Pro 3 with case.jpg», Auggie G. Лицензия: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0)
+         https://commons.wikimedia.org/wiki/File:AirPods_Pro_3_with_case.jpg
+HP-002.png — «Headphones on white background.jpg», Sprinno. Лицензия: CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en)
+         https://commons.wikimedia.org/wiki/File:Headphones_on_white_background.jpg
+NB-001.png — «Lenovo ThinkPad X1 Ultrabook.jpg», Intel Free Press. Лицензия: CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0)
+         https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X1_Ultrabook.jpg
+NB-002.png — «Toshiba Satellite Pro (white background).jpg», Smial. Лицензия: FAL (http://artlibre.org/licence/lal/en)
+         https://commons.wikimedia.org/wiki/File:Toshiba_Satellite_Pro_(white_background).jpg
+SM-001.png — «Huawei P30 Pro.jpg», Wilfredor. Лицензия: CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en)
+         https://commons.wikimedia.org/wiki/File:Huawei_P30_Pro.jpg
+SM-002.png — «Samsung-Galaxy-A52-Awesome-White.jpg», Samsung. Лицензия: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)
+         https://commons.wikimedia.org/wiki/File:Samsung-Galaxy-A52-Awesome-White.jpg
+SM-003.png — «Samsung Galaxy Note 20 front.png», Marcusph. Лицензия: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)
+         https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Note_20_front.png
+TB-001.png — «Samsung Galaxy Tab S9.png», AnVuong1222004. Лицензия: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)
+         https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Tab_S9.png
+TB-002.png — «Kindle Fire HD 8.9.jpg», Frmorrison. Лицензия: CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)
+         https://commons.wikimedia.org/wiki/File:Kindle_Fire_HD_8.9.jpg
+TV-001.png — «Mivar 32LED1 100 Hz.png», Enzo1. Лицензия: CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)
+         https://commons.wikimedia.org/wiki/File:Mivar_32LED1_100_Hz.png
+WT-001.png — «Apple Watch Series 10.jpg», KK IN HK. Лицензия: Public domain
+         https://commons.wikimedia.org/wiki/File:Apple_Watch_Series_10.jpg

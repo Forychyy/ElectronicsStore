@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.ProductView"
+             Tag="Оформление заказа">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <Grid ColumnDefinitions="*,380" RowDefinitions="Auto,*">
+
+            <Button Grid.ColumnSpan="2" Content="← Назад к каталогу" Classes="link"
+                    Margin="0,0,0,12" Click="BackClick"/>
+
+            <!-- ЛЕВАЯ ЧАСТЬ: сведения о товаре -->
+            <Border Grid.Row="1" Classes="panel" Margin="0,0,20,0" VerticalAlignment="Top">
+                <StackPanel Spacing="14">
+                    <Border CornerRadius="8" ClipToBounds="True" Height="300" Background="White">
+                        <Image x:Name="ProductImage" Stretch="Uniform"/>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Border Classes="tag" Background="{StaticResource AccentSoftBrush}">
+                            <TextBlock x:Name="CategoryText" Foreground="{StaticResource AccentBrush}"/>
+                        </Border>
+                        <TextBlock x:Name="CodeText" Classes="muted" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="NameText" Classes="h1"/>
+                    <TextBlock x:Name="DepartmentText" Classes="muted"/>
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Характеристики" Classes="label"/>
+                        <TextBlock x:Name="ContentText" FontWeight="Medium"/>
+                    </StackPanel>
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Описание" Classes="label"/>
+                        <TextBlock x:Name="DescriptionText"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ПРАВАЯ ЧАСТЬ: параметры заказа -->
+            <Border Grid.Row="1" Grid.Column="1" Classes="panel" VerticalAlignment="Top" Padding="22">
+                <StackPanel Spacing="14">
+                    <TextBlock Text="Параметры заказа" Classes="h2"/>
+
+                    <!-- Выбор клиента — только для менеджера и администратора -->
+                    <StackPanel x:Name="ClientPanel" IsVisible="False">
+                        <TextBlock Text="Покупатель" Classes="label"/>
+                        <ComboBox x:Name="ClientBox" HorizontalAlignment="Stretch"
+                                  PlaceholderText="Выберите клиента..." SelectionChanged="ClientChanged"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Партия товара" Classes="label"/>
+                        <ComboBox x:Name="VariantBox" HorizontalAlignment="Stretch"
+                                  PlaceholderText="Выберите партию..." SelectionChanged="InputChanged"/>
+                        <TextBlock x:Name="NoStockText" Text="Товара нет в наличии" IsVisible="False"
+                                   Foreground="{StaticResource DangerBrush}" FontSize="12" Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Количество, шт." Classes="label"/>
+                        <TextBox x:Name="QuantityBox" Text="1" MaxLength="4" TextChanged="QuantityChanged"/>
+                        <TextBlock x:Name="QuantityError" IsVisible="False" FontSize="12" Margin="0,4,0,0"
+                                   Foreground="{StaticResource DangerBrush}"/>
+                    </StackPanel>
+
+                    <!-- Расчёт стоимости -->
+                    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="8" Padding="14">
+                        <StackPanel Spacing="6">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Базовая цена" Classes="muted"/>
+                                <TextBlock x:Name="BasePriceText" Grid.Column="1" Text="—"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Цена за единицу" Classes="muted"/>
+                                <TextBlock x:Name="UnitPriceText" Grid.Column="1" Text="—" FontWeight="SemiBold"/>
+                            </Grid>
+                            <TextBlock x:Name="DiscountText" FontSize="12" IsVisible="False"
+                                       Foreground="{StaticResource SuccessBrush}"/>
+                            <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,4"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Итого" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TotalText" Grid.Column="1" Text="—"
+                                           FontWeight="Bold" FontSize="22" Foreground="{StaticResource AccentBrush}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Button x:Name="OrderButton" Content="Оформить" Classes="primary"
+                            HorizontalAlignment="Stretch" Padding="14,10" Click="OrderClick"/>
+                    <Button Content="Назад" Classes="secondary" HorizontalAlignment="Stretch" Click="BackClick"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

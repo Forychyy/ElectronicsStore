@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1240" d:DesignHeight="780"
+        x:Class="ElectronicsStore.Views.MainWindow"
+        Title="Магазин электроники «Вольт»"
+        Width="1240" Height="780" MinWidth="1040" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://ElectronicsStore/Assets/app.ico">
+
+    <DockPanel>
+
+        <!-- 1. ШАПКА: логотип, навигация, пользователь -->
+        <Border DockPanel.Dock="Top" Background="{StaticResource HeaderBrush}" Padding="20,10">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <!-- Логотип -->
+                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <Image Source="avares://ElectronicsStore/Assets/logo.png" Width="38" Height="38"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="ВОЛЬТ" Foreground="White" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="магазин электроники" Foreground="{StaticResource HeaderTextBrush}" FontSize="11"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Навигация: видимость кнопок зависит от роли -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" Margin="36,0,0,0"
+                            VerticalAlignment="Center">
+                    <Button x:Name="CatalogButton" Content="Каталог" Classes="nav" Click="CatalogClick"/>
+                    <Button x:Name="OrdersButton" Content="Заказы" Classes="nav" Click="OrdersClick"/>
+                    <Button x:Name="ProductsButton" Content="Товары" Classes="nav" Click="ProductsClick"/>
+                    <Button x:Name="ReportsButton" Content="Отчёты" Classes="nav" Click="ReportsClick"/>
+                    <Button x:Name="UsersButton" Content="Пользователи" Classes="nav" Click="UsersClick"/>
+                </StackPanel>
+
+                <!-- Пользователь: ФИО и роль справа сверху -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock x:Name="UserText" Text="Гость" Foreground="White" FontWeight="SemiBold"
+                                   TextAlignment="Right" TextWrapping="NoWrap"/>
+                        <TextBlock x:Name="RoleText" Text="вход не выполнен" FontSize="12"
+                                   Foreground="{StaticResource HeaderTextBrush}" TextAlignment="Right"/>
+                    </StackPanel>
+                    <Button x:Name="AuthButton" Content="Войти" Classes="secondary" Click="AuthClick"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 2. РАБОЧАЯ ОБЛАСТЬ: сюда подставляются страницы -->
+        <Grid>
+            <ContentControl x:Name="PageHost" Margin="28,22"/>
+
+            <!-- Всплывающее уведомление (снизу справа, скрывается само) -->
+            <Border x:Name="Toast" IsVisible="False"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Margin="0,0,24,24" MaxWidth="440" CornerRadius="8" Padding="16,12"
+                    BorderThickness="0,0,0,0" BoxShadow="0 8 24 #33000000"
+                    PointerPressed="ToastPressed" Cursor="Hand">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Border x:Name="ToastStripe" Width="4" CornerRadius="2" Margin="0,0,12,0"/>
+                    <TextBlock x:Name="ToastText" Grid.Column="1" FontWeight="Medium" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

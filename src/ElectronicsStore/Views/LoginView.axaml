@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.LoginView"
+             Tag="Вход">
+
+    <!-- Карточка входа по центру окна -->
+    <Border Classes="panel" Width="440" Padding="36,32"
+            HorizontalAlignment="Center" VerticalAlignment="Center"
+            BoxShadow="0 10 30 #1A0F172A">
+        <StackPanel Spacing="16">
+            <StackPanel Spacing="8" HorizontalAlignment="Center">
+                <Image Source="avares://ElectronicsStore/Assets/logo.png" Width="72" Height="72"/>
+                <TextBlock Classes="h1" Text="Вход в систему" HorizontalAlignment="Center"/>
+                <TextBlock Classes="muted" TextAlignment="Center"
+                           Text="Введите логин и пароль своей учётной записи"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Логин" Classes="label"/>
+                <TextBox x:Name="LoginBox" PlaceholderText="Например, ivanov" MaxLength="50"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Пароль" Classes="label"/>
+                <TextBox x:Name="PasswordBox" PasswordChar="•" PlaceholderText="Пароль"/>
+            </StackPanel>
+
+            <!-- Сообщение об ошибке -->
+            <TextBlock x:Name="StatusText" Foreground="{StaticResource DangerBrush}" FontSize="13"
+                       IsVisible="False"/>
+
+            <Button x:Name="LoginButton" Content="Войти" Classes="primary" Click="LoginClick"
+                    HorizontalAlignment="Stretch" Padding="14,10"/>
+            <Button Content="Продолжить как гость" Classes="secondary" Click="GuestClick"
+                    HorizontalAlignment="Stretch" Padding="14,10"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6">
+                <TextBlock Text="Впервые у нас?" Classes="muted" VerticalAlignment="Center"/>
+                <Button Content="Зарегистрироваться" Classes="link" Click="RegisterClick"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

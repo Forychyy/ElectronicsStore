@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.OrderDetailsView"
+             Tag="Состав заказа">
+
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="14" MaxWidth="900" HorizontalAlignment="Stretch">
+                <Button Content="← Назад к заказам" Classes="link" Click="BackClick"/>
+
+                <!-- Заголовок заказа -->
+                <Border Classes="panel">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Spacing="4">
+                            <TextBlock x:Name="HeaderText" Classes="h1" Text="Заказ №"/>
+                            <TextBlock x:Name="ClientText" FontWeight="Medium"/>
+                            <TextBlock x:Name="DateText" Classes="muted"/>
+                        </StackPanel>
+
+                        <!-- Изменение даты — только администратору -->
+                        <StackPanel Grid.Column="1" x:Name="DatePanel" IsVisible="False" Spacing="6"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Дата заказа" Classes="label"/>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <CalendarDatePicker x:Name="DateBox" Width="160"/>
+                                <Button Content="Изменить дату" Classes="secondary" Click="ChangeDateClick"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Позиции заказа -->
+                <Border Classes="panel" Padding="0" ClipToBounds="True">
+                    <StackPanel>
+                        <Border Background="{StaticResource BackgroundBrush}" Padding="16,10"
+                                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                            <Grid ColumnDefinitions="*,200,70,130,130,110" Classes="head">
+                                <TextBlock Text="Товар"/>
+                                <TextBlock Grid.Column="1" Text="Партия"/>
+                                <TextBlock Grid.Column="2" Text="Кол-во" TextAlignment="Right"/>
+                                <TextBlock Grid.Column="3" Text="Цена" TextAlignment="Right"/>
+                                <TextBlock Grid.Column="4" Text="Сумма" TextAlignment="Right"/>
+                            </Grid>
+                        </Border>
+
+                        <ItemsControl x:Name="ItemsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="16,10" BorderBrush="{StaticResource BorderBrush}"
+                                            BorderThickness="0,0,0,1">
+                                        <Grid ColumnDefinitions="*,200,70,130,130,110">
+                                            <TextBlock Text="{Binding ProductName}" FontWeight="Medium"
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding VariantName}" Classes="muted"
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Quantity}" TextAlignment="Right"
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding UnitPrice, StringFormat={}{0:N2} ₽}"
+                                                       TextAlignment="Right" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding Sum, StringFormat={}{0:N2} ₽}"
+                                                       TextAlignment="Right" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                            <!-- Удаление позиции — только администратору -->
+                                            <Button Grid.Column="5" Content="Удалить" Classes="danger itemDelete"
+                                                    HorizontalAlignment="Right" Padding="10,4" FontSize="12"
+                                                    Tag="{Binding}" Click="DeleteItemClick"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Grid ColumnDefinitions="*,Auto" Margin="16,14">
+                            <TextBlock x:Name="UnitsText" Classes="muted" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="Итого:" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TotalText" FontSize="22" FontWeight="Bold"
+                                           Foreground="{StaticResource AccentBrush}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Удаление всего заказа — менеджер и администратор -->
+                <Button x:Name="DeleteOrderButton" Content="Удалить заказ" Classes="danger"
+                        HorizontalAlignment="Right" Click="DeleteOrderClick" IsVisible="False"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ -->
+        <Border x:Name="ConfirmPanel" Background="#800F172A" IsVisible="False" Margin="-28,-22">
+            <Border Classes="panel" MaxWidth="440" Padding="24"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="14">
+                    <TextBlock x:Name="ConfirmTitle" Text="Удалить?" Classes="h2"/>
+                    <TextBlock x:Name="ConfirmText" Classes="muted"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                        <Button Content="Отмена" Classes="secondary" Click="ConfirmCancelClick"/>
+                        <Button Content="Удалить" Background="{StaticResource DangerBrush}"
+                                Foreground="White" Click="ConfirmDeleteClick"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+
+    <UserControl.Styles>
+        <Style Selector="Grid.head > TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+        </Style>
+        <!-- Кнопки удаления позиций скрыты, пока на странице нет класса admin -->
+        <Style Selector="Button.itemDelete">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector=":is(UserControl).admin Button.itemDelete">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

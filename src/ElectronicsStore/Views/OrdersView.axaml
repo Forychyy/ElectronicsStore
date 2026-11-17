@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.OrdersView"
+             Tag="Заказы">
+
+    <DockPanel>
+        <!-- ЗАГОЛОВОК, ИТОГИ, ПОИСК -->
+        <StackPanel DockPanel.Dock="Top" Spacing="12" Margin="0,0,0,12">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="2">
+                    <TextBlock x:Name="TitleText" Classes="h1" Text="Журнал заказов"/>
+                    <TextBlock Classes="muted" Text="Нажмите на строку, чтобы открыть состав заказа"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="24" VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="Заказов" Classes="label"/>
+                        <TextBlock x:Name="CountText" Text="0" FontSize="20" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="На сумму" Classes="label"/>
+                        <TextBlock x:Name="SumText" Text="0 ₽" FontSize="20" FontWeight="Bold"
+                                   Foreground="{StaticResource AccentBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBox x:Name="SearchBox" PlaceholderText="Поиск по номеру, клиенту или товару..."
+                         TextChanged="SearchChanged"/>
+                <Button Grid.Column="1" Content="Обновить" Classes="secondary" Margin="10,0,0,0"
+                        Click="ReloadClick"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- ТАБЛИЦА ЗАКАЗОВ -->
+        <Border Classes="panel" Padding="0" ClipToBounds="True">
+            <DockPanel>
+                <!-- Шапка таблицы -->
+                <Border DockPanel.Dock="Top" Background="{StaticResource BackgroundBrush}"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,10">
+                    <Grid ColumnDefinitions="70,110,240,*,140" Classes="head">
+                        <TextBlock Text="№"/>
+                        <TextBlock Grid.Column="1" Text="Дата"/>
+                        <TextBlock Grid.Column="2" Text="Клиент"/>
+                        <TextBlock Grid.Column="3" Text="Состав"/>
+                        <TextBlock Grid.Column="4" Text="Сумма" TextAlignment="Right"/>
+                    </Grid>
+                </Border>
+
+                <Grid>
+                    <ListBox x:Name="OrdersList" Background="Transparent" Tapped="OrderTapped">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="70,110,240,*,140" Margin="4,6">
+                                    <TextBlock Text="{Binding OrderId}" FontWeight="SemiBold"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding ClientName}" Margin="0,0,12,0"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding ItemsText}" Classes="muted"
+                                               TextTrimming="CharacterEllipsis" MaxLines="2" Margin="0,0,12,0"/>
+                                    <TextBlock Grid.Column="4" Text="{Binding Total, StringFormat={}{0:N2} ₽}"
+                                               FontWeight="Bold" TextAlignment="Right"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel x:Name="EmptyPanel" IsVisible="False" Spacing="6"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock x:Name="EmptyTitle" Text="Заказов пока нет" Classes="h2" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Оформите заказ из каталога" Classes="muted" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+
+    <UserControl.Styles>
+        <Style Selector="Grid.head > TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+        </Style>
+        <Style Selector="ListBox#OrdersList > ListBoxItem">
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

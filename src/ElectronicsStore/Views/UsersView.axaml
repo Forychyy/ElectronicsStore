@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.UsersView"
+             Tag="Пользователи">
+
+    <Grid ColumnDefinitions="*,380" RowDefinitions="Auto,*">
+        <StackPanel Grid.ColumnSpan="2" Spacing="2" Margin="0,0,0,14">
+            <TextBlock Classes="h1" Text="Управление пользователями"/>
+            <TextBlock Classes="muted" Text="Учётные записи клиентов и сотрудников, назначение ролей"/>
+        </StackPanel>
+
+        <!-- ТАБЛИЦА ПОЛЬЗОВАТЕЛЕЙ -->
+        <Border Grid.Row="1" Classes="panel" Padding="0" Margin="0,0,16,0" ClipToBounds="True">
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Background="{StaticResource BackgroundBrush}" Padding="16,10"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                    <Grid ColumnDefinitions="130,*,140,70" Classes="head">
+                        <TextBlock Text="Логин"/>
+                        <TextBlock Grid.Column="1" Text="ФИО"/>
+                        <TextBlock Grid.Column="2" Text="Роль"/>
+                        <TextBlock Grid.Column="3" Text="Заказов" TextAlignment="Right"/>
+                    </Grid>
+                </Border>
+                <ListBox x:Name="UsersList" Background="Transparent" SelectionChanged="UserSelected">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="130,*,140,70" Margin="4,4">
+                                <TextBlock Text="{Binding Login}" FontWeight="Medium"/>
+                                <TextBlock Grid.Column="1" Text="{Binding FullName}"/>
+                                <TextBlock Grid.Column="2" Text="{Binding RoleName}" Classes="muted"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Orders.Count}" TextAlignment="Right"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- ФОРМА -->
+        <Border Grid.Row="1" Grid.Column="1" Classes="panel" VerticalAlignment="Top">
+            <StackPanel Spacing="12">
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock x:Name="FormTitle" Text="Новый пользователь" Classes="h2"/>
+                    <Button Grid.Column="1" Content="+ Новый" Classes="link" Click="NewClick"/>
+                </Grid>
+
+                <StackPanel>
+                    <TextBlock Text="Логин *" Classes="label"/>
+                    <TextBox x:Name="LoginBox" MaxLength="50"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock x:Name="PasswordLabel" Text="Пароль *" Classes="label"/>
+                    <TextBox x:Name="PasswordBox" PasswordChar="•"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Фамилия *" Classes="label"/>
+                    <TextBox x:Name="LastNameBox" MaxLength="60"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Имя *" Classes="label"/>
+                    <TextBox x:Name="FirstNameBox" MaxLength="60"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Отчество" Classes="label"/>
+                    <TextBox x:Name="MiddleNameBox" MaxLength="60"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Роль" Classes="label"/>
+                    <ComboBox x:Name="RoleBox" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+                    <Button x:Name="DeleteButton" Content="Удалить" Classes="danger" Click="DeleteClick"
+                            IsVisible="False"/>
+                    <Button Content="Сохранить" Classes="primary" Click="SaveClick"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+    <UserControl.Styles>
+        <Style Selector="Grid.head > TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+        </Style>
+        <Style Selector="ListBox#UsersList > ListBoxItem">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

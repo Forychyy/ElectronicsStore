@@ -1,0 +1,113 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ElectronicsStore.Views.ReportsView"
+             Tag="Отчёты">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Spacing="12" Margin="0,0,0,14">
+            <StackPanel Spacing="2">
+                <TextBlock Classes="h1" Text="Отчёт о продажах"/>
+                <TextBlock Classes="muted" Text="Выручка и количество проданных единиц за выбранный период"/>
+            </StackPanel>
+
+            <!-- Параметры отчёта -->
+            <Border Classes="panel" Padding="14">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <StackPanel>
+                        <TextBlock Text="С" Classes="label"/>
+                        <CalendarDatePicker x:Name="FromBox" Width="160"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="По" Classes="label"/>
+                        <CalendarDatePicker x:Name="ToBox" Width="160"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Группировка" Classes="label"/>
+                        <ComboBox x:Name="GroupBox" Width="180">
+                            <ComboBoxItem Content="По категориям"/>
+                            <ComboBoxItem Content="По товарам"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <Button Content="Сформировать" Classes="primary" VerticalAlignment="Bottom" Click="BuildClick"/>
+                    <Button Content="Прошлый месяц" Classes="secondary" VerticalAlignment="Bottom" Click="LastMonthClick"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Итоги -->
+            <UniformGrid Columns="3">
+                <Border Classes="panel" Margin="0,0,8,0" Padding="16,12">
+                    <StackPanel>
+                        <TextBlock Text="Выручка" Classes="label"/>
+                        <TextBlock x:Name="RevenueText" Text="—" FontSize="22" FontWeight="Bold"
+                                   Foreground="{StaticResource AccentBrush}"/>
+                    </StackPanel>
+                </Border>
+                <Border Classes="panel" Margin="4,0" Padding="16,12">
+                    <StackPanel>
+                        <TextBlock Text="Продано единиц" Classes="label"/>
+                        <TextBlock x:Name="UnitsText" Text="—" FontSize="22" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+                <Border Classes="panel" Margin="8,0,0,0" Padding="16,12">
+                    <StackPanel>
+                        <TextBlock Text="Средний чек" Classes="label"/>
+                        <TextBlock x:Name="AverageText" Text="—" FontSize="22" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+        </StackPanel>
+
+        <!-- Таблица отчёта -->
+        <Border Classes="panel" Padding="0" ClipToBounds="True">
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Background="{StaticResource BackgroundBrush}" Padding="16,10"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                    <Grid ColumnDefinitions="*,90,90,150,200" Classes="head">
+                        <TextBlock x:Name="NameHeader" Text="Категория"/>
+                        <TextBlock Grid.Column="1" Text="Заказов" TextAlignment="Right"/>
+                        <TextBlock Grid.Column="2" Text="Единиц" TextAlignment="Right"/>
+                        <TextBlock Grid.Column="3" Text="Выручка" TextAlignment="Right"/>
+                        <TextBlock Grid.Column="4" Text="Доля" Margin="24,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Grid>
+                    <ScrollViewer>
+                        <ItemsControl x:Name="RowsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="16,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                                        <Grid ColumnDefinitions="*,90,90,150,200">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Medium"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Orders}" TextAlignment="Right"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Units}" TextAlignment="Right"/>
+                                            <TextBlock Grid.Column="3" Text="{Binding RevenueText}" TextAlignment="Right"
+                                                       FontWeight="SemiBold"/>
+                                            <Grid Grid.Column="4" ColumnDefinitions="*,50" Margin="24,0,0,0">
+                                                <ProgressBar Value="{Binding Share}" Maximum="1" MinWidth="0"
+                                                             Height="8" CornerRadius="4" VerticalAlignment="Center"
+                                                             Foreground="{StaticResource AccentBrush}"
+                                                             Background="{StaticResource AccentSoftBrush}"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding ShareText}" Classes="muted"
+                                                           FontSize="12" TextAlignment="Right"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <TextBlock x:Name="EmptyText" Text="За выбранный период продаж нет" Classes="muted"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="False"/>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+
+    <UserControl.Styles>
+        <Style Selector="Grid.head > TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>
